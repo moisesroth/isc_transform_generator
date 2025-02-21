@@ -22,7 +22,7 @@ This is useful for identifying users who have been terminated for more than 30 d
 
 #### **Python Code**  
 ```python
-from transform_tools_v3 import *
+from isc_transform_generator import *
 
 transform("Terminated Over 30 Days Ago",
     dateCompare(
@@ -53,7 +53,7 @@ This is useful for ensuring that every user has a valid email address for commun
 
 #### **Python Code**  
 ```python
-from transform_tools_v3 import *
+from isc_transform_generator import *
 
 transform("Best Available Email",
     firstValid([
