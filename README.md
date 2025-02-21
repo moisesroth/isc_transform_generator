@@ -4,13 +4,14 @@
 **ISC Transform Generator** is a Python-based utility designed to streamline the creation of **SailPoint Identity Security Cloud (ISC) transforms**. This tool automates the generation of valid JSON configurations, reducing manual effort and ensuring consistency in IAM workflows.  
 
 ## Features  
-- ✅ **Predefined Transform Functions** – Includes common ISC transforms like `accountAttribute`, `concat`, `dateCompare`, `lookup`, `static`, `replace`, and more.
-- ✅ **Automated JSON Generation** – Eliminates manual JSON creation and formatting errors.
-- ✅ **Easily Expandable** – Supports adding new transforms as needed.
-
+- ✅ **Simplified Transform Creation** – Provides a structured and readable way to define ISC transforms using Python, eliminating complex manual JSON creation.  
+- ✅ **Improved Readability** – Transforms are written in a clear, intuitive format, making it easier to understand and maintain.  
+- ✅ **Error Reduction** – Minimizes syntax errors and formatting mistakes by abstracting JSON creation into reusable functions.  
+- ✅ **Consistent Standards** – Ensures transforms follow best practices, including fallback values and logical prioritization.  
+- ✅ **Easily Expandable** – Allows for easy addition of new transforms without modifying existing JSON structures manually.  
+- ✅ **Faster Development** – Enables rapid prototyping and testing of transforms, accelerating deployment in SailPoint ISC.  
 
 ## Examples  
-
 Here are some examples demonstrating how to use **ISC Transform Generator** to create different ISC transforms.  
 
 ### **📌 Checking If a User Was Terminated More Than 30 Days Ago**  
