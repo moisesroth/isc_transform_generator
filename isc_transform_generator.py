@@ -60,14 +60,13 @@ def concat(values):
     }
     return transform
 
-def conditional(expression, positive_condition, negative_condition, requires_periodic_refresh=False, **variables):
+def conditional(expression, positive_condition, negative_condition, **variables):
     """
     Creates a dictionary representing a 'conditional' transform in SailPoint.
 
     :param expression: The conditional expression to evaluate, formatted as 'ValueA eq ValueB'.
     :param positive_condition: The output if the expression evaluates to true.
     :param negative_condition: The output if the expression evaluates to false.
-    :param requires_periodic_refresh: Boolean indicating if the transform should be reevaluated during the nightly identity refresh process. Default is False.
     :param variables: Additional variables used in the expression, defined as keyword arguments.
     :return: A dictionary representing the 'conditional' transform.
     """
@@ -81,8 +80,6 @@ def conditional(expression, positive_condition, negative_condition, requires_per
         "attributes": attributes,
         "type": "conditional"
     }
-    if requires_periodic_refresh:
-        transform["requiresPeriodicRefresh"] = requires_periodic_refresh
     return transform
 
 
