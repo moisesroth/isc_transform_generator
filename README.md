@@ -15,7 +15,7 @@ We provide custom Chat GPT [ISC Transform Creator](https://chatgpt.com/g/g-67b78
 - ✅ **Faster Development** – Enables rapid prototyping and testing of transforms, accelerating deployment in SailPoint ISC.  
 
 ## Examples  
-Here are some examples demonstrating how to use this lib to create different ISC transforms.  
+Below are some examples showcasing how to use this library to create various ISC transforms. For more, check the [example](https://github.com/moisesroth/isc_transform_generator/tree/main/examples) folder.
 
 ### **Checking If a User Was Terminated More Than 30 Days Ago**  
 This transform checks if the `TERMINATION_DATE` is older than `today - 30 days`.  
