@@ -13,7 +13,6 @@ def transform(name, transform, requires_periodic_refresh=None):
         transform["attributes"]["requiresPeriodicRefresh"] = requires_periodic_refresh
     print(json.dumps(final_transform, indent=4))
 
-
 def accountAttribute(source_name, attribute_name, account_sort_attribute=None, account_sort_descending=None, account_return_first_link=None, account_property_filter=None, account_filter=None):
     """
     Creates a dictionary representing an 'accountAttribute' transform in SailPoint.
@@ -167,6 +166,25 @@ def firstValid(values, ignore_errors=None):
         transform["attributes"]["ignoreErrors"] = ignore_errors
     return transform
 
+def getReferenceIdentityAttribute(uid, attribute_name):
+    """
+    Creates a dictionary representing a 'getReferenceIdentityAttribute' transform in SailPoint.
+
+    :param uid: The unique identifier of the reference identity (e.g., "manager" or a specific user ID).
+    :param attribute_name: The name of the attribute to retrieve from the reference identity.
+    :return: A dictionary representing the 'getReferenceIdentityAttribute' transform.
+    """
+    transform = {
+        "attributes": {
+            "name": "Cloud Services Deployment Utility",
+            "operation": "getReferenceIdentityAttribute",
+            "uid": uid,
+            "attributeName": attribute_name
+        },
+        "type": "rule"
+    }
+    return transform
+
 def generateRandomString(length, include_numbers=True, include_special_chars=True):
     """
     Creates a dictionary representing a 'generateRandomString' transform in SailPoint.
@@ -189,16 +207,37 @@ def generateRandomString(length, include_numbers=True, include_special_chars=Tru
     return transform
 
 
-def lower(input=None):
+def identityAttribute(attribute_name):
     """
-    Creates a dictionary representing a 'lower' transform in SailPoint.
+    Creates a dictionary representing an 'identityAttribute' transform in SailPoint.
 
-    :param input: (optional) Dictionary defining the input for the transform.
-    :return: A dictionary representing the 'lower' transform.
+    :param attribute_name: The system (camel-cased) name of the identity attribute to retrieve.
+    :return: A dictionary representing the 'identityAttribute' transform.
     """
     transform = {
-        "attributes": {},
-        "type": "lower"
+        "attributes": {
+            "name": attribute_name
+        },
+        "type": "identityAttribute"
+    }
+    return transform
+
+
+def leftPad(length, padding=' ', input=None):
+    """
+    Creates a dictionary representing a 'leftPad' transform in SailPoint.
+
+    :param length: Desired final length of the output string.
+    :param padding: (optional) Character used for left-padding. Default is a space.
+    :param input: (optional) Dictionary defining the input for the transform.
+    :return: A dictionary representing the 'leftPad' transform.
+    """
+    transform = {
+        "type": "leftPad",
+        "attributes": {
+            "length": length,
+            "padding": padding
+        }
     }
     if input is not None:
         transform["attributes"]["input"] = input
@@ -228,25 +267,36 @@ def lookup(table, input=None):
     return transform
 
 
-def leftPad(length, padding=' ', input=None):
+def lower(input=None):
     """
-    Creates a dictionary representing a 'leftPad' transform in SailPoint.
+    Creates a dictionary representing a 'lower' transform in SailPoint.
 
-    :param length: Desired final length of the output string.
-    :param padding: (optional) Character used for left-padding. Default is a space.
     :param input: (optional) Dictionary defining the input for the transform.
-    :return: A dictionary representing the 'leftPad' transform.
+    :return: A dictionary representing the 'lower' transform.
     """
     transform = {
-        "type": "leftPad",
-        "attributes": {
-            "length": length,
-            "padding": padding
-        }
+        "attributes": {},
+        "type": "lower"
     }
     if input is not None:
         transform["attributes"]["input"] = input
     return transform
+
+
+def normalizeNames(input=None):
+    """
+    Creates a dictionary representing a 'nameNormalizer' transform in SailPoint.
+
+    :param input_value: The input string to be normalized. If None, the transform will use the default input from the source attribute.
+    :return: A dictionary representing the 'nameNormalizer' transform.
+    """
+    transform = {
+        "type": "normalizeNames"
+    }
+    if input is not None:
+        transform["attributes"]["input"] = input
+    return transform
+
 
 def rightPad(length, padding=' ', input=None):
     """
@@ -478,4 +528,40 @@ def upper(input=None):
     if input is not None:
         transform["attributes"]["input"] = input
     return transform
+
+
+def usernameGenerator(patterns, source_check=True, cloud_max_size=255, cloud_max_unique_checks=50, **variables):
+    """
+    Creates a dictionary representing a 'usernameGenerator' transform in SailPoint.
+
+    :param patterns: A list of patterns to generate the username. Example: ["$fi.$ln", "$fn.$ln", "$fi$ln"]
+    :param source_check: Boolean indicating whether to check for uniqueness in the source. Default is True.
+    :param cloud_max_size: Maximum length of the generated username. Default is 255.
+    :param cloud_max_unique_checks: Maximum number of uniqueness checks to attempt. Default is 50.
+    :param variables: Additional variables used in patterns, defined as keyword arguments.
+                      Example: fi=first initial, ln=last name, fn=first name.
+    :return: A dictionary representing the 'usernameGenerator' transform.
+    """
+    # Construct the attributes dictionary
+    attributes = {
+        "sourceCheck": source_check,
+        "patterns": patterns
+    }
+    
+    # Add provided variables to the attributes
+    for var_name, transform in variables.items():
+        attributes[var_name] = transform
+
+    # Construct the complete transform dictionary
+    transform = {
+        "type": "usernameGenerator",
+        "attributes": attributes
+    }
+    cloud_attributes = {
+        "cloudMaxSize": str(cloud_max_size),
+        "cloudMaxUniqueChecks": str(cloud_max_unique_checks),
+        "cloudRequired": "true"
+    }
+    
+    return {"transform": transform, "attributes": cloud_attributes, "isRequired": False, "type": "string", "isMultiValued": False}
 
