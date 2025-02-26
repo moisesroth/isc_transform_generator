@@ -3,6 +3,9 @@
 ## Overview  
 **ISC Transform Generator** is a Python-based utility designed to streamline the creation of **SailPoint Identity Security Cloud (ISC) transforms**. This tool automates the generation of valid JSON configurations, reducing manual effort and ensuring consistency in IAM workflows.  
 
+## Custom Chat GPT
+We provide custom Chat GPT [ISC Transform Creator](https://chatgpt.com/g/g-67b78aa3d3148191a4b2120bc795b755-isc-transform-creator), which has been customized specifically for building Transformers using our library.
+
 ## Features  
 - ✅ **Simplified Transform Creation** – Provides a structured and readable way to define ISC transforms using Python, eliminating complex manual JSON creation.  
 - ✅ **Improved Readability** – Transforms are written in a clear, intuitive format, making it easier to understand and maintain.  
@@ -12,9 +15,9 @@
 - ✅ **Faster Development** – Enables rapid prototyping and testing of transforms, accelerating deployment in SailPoint ISC.  
 
 ## Examples  
-Here are some examples demonstrating how to use **ISC Transform Generator** to create different ISC transforms.  
+Here are some examples demonstrating how to use this lib to create different ISC transforms.  
 
-### **📌 Checking If a User Was Terminated More Than 30 Days Ago**  
+### **Checking If a User Was Terminated More Than 30 Days Ago**  
 This transform checks if the `TERMINATION_DATE` is older than `today - 30 days`.  
 
 #### **Use Case**  
@@ -45,7 +48,7 @@ transform("Terminated Over 30 Days Ago",
 )
 ```
 
-### **📌 Retrieving the Best Available Email for a User**  
+### **Retrieving the Best Available Email for a User**  
 This transform retrieves the best available email address for a user, prioritizing Active Directory (AD). If no email is found in AD, it will check Workday. If neither source provides an email, a default value indicating the absence of an email will be used.  
 
 #### **Use Case**  
