@@ -60,27 +60,31 @@ def concat(values):
     }
     return transform
 
-def conditional(expression, positive_condition, negative_condition, input=None):
+def conditional(expression, positive_condition, negative_condition, requires_periodic_refresh=False, **variables):
     """
     Creates a dictionary representing a 'conditional' transform in SailPoint.
 
-    :param expression: Comparison expression in the format 'ValueA eq ValueB'.
-    :param positive_condition: Value returned if the expression is true.
-    :param negative_condition: Value returned if the expression is false.
-    :param input: (optional) Dictionary defining the input for the transform.
+    :param expression: The conditional expression to evaluate, formatted as 'ValueA eq ValueB'.
+    :param positive_condition: The output if the expression evaluates to true.
+    :param negative_condition: The output if the expression evaluates to false.
+    :param requires_periodic_refresh: Boolean indicating if the transform should be reevaluated during the nightly identity refresh process. Default is False.
+    :param variables: Additional variables used in the expression, defined as keyword arguments.
     :return: A dictionary representing the 'conditional' transform.
     """
-    transform = {
-        "type": "conditional",
-        "attributes": {
-            "expression": expression,
-            "positiveCondition": positive_condition,
-            "negativeCondition": negative_condition
-        }
+    attributes = {
+        "expression": expression,
+        "positiveCondition": positive_condition,
+        "negativeCondition": negative_condition
     }
-    if input is not None:
-        transform["attributes"]["input"] = input
+    attributes.update(variables)
+    transform = {
+        "attributes": attributes,
+        "type": "conditional"
+    }
+    if requires_periodic_refresh:
+        transform["requiresPeriodicRefresh"] = requires_periodic_refresh
     return transform
+
 
 def dateCompare(first_date, second_date, operator, positive_condition="yes", negative_condition="no"):
     """
