@@ -493,7 +493,11 @@ def static(value, variables=None):
     if variables:
         transform["attributes"].update(variables)
     if value:
-        transform["attributes"]['value'] = flatten_text(value)
+        # If the value contains "#end", it's a Velocity template and needs spaces removed; otherwise, keep it as is.
+        if "#end" in value:
+            transform["attributes"]['value'] = flatten_text(value)
+        else:
+            transform["attributes"]['value'] = value
     return transform
 
 
