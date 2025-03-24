@@ -2,7 +2,8 @@ import json
 
 def flatten_text(input):
     if isinstance(input, str):
-        return "".join(line.strip() for line in input.splitlines())
+        input = input.strip()
+        return "\n".join(line.strip() for line in input.splitlines())
     else:
         return input
 
