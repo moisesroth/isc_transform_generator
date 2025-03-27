@@ -1,11 +1,18 @@
 import json
+import re
 
 def flatten_text(input):
     if isinstance(input, str):
         input = input.strip()
-        return "\n".join(line.strip() for line in input.splitlines())
+        return "".join(line.strip() for line in input.splitlines())
     else:
         return input
+    
+def fix_velocity_pattern(input):
+    output_string = re.sub(r'\s*\n\s*', '', input)
+    output_string = re.sub(r'#elseif', '#{elseif}', output_string)
+    output_string = re.sub(r'#else', '#{else}', output_string)
+    return output_string
 
 def transform(name, transform, requires_periodic_refresh=None):
     final_transform = {'name': name}
@@ -496,7 +503,7 @@ def static(value, variables=None):
     if value:
         # If the value contains "#end", it's a Velocity template and needs spaces removed; otherwise, keep it as is.
         if "#end" in value:
-            transform["attributes"]['value'] = flatten_text(value)
+            transform["attributes"]['value'] = fix_velocity_pattern(flatten_text(value))
         else:
             transform["attributes"]['value'] = value
     return transform
@@ -570,4 +577,3 @@ def usernameGenerator(patterns, source_check=True, cloud_max_size=255, cloud_max
     }
     
     return {"transform": transform, "attributes": cloud_attributes, "isRequired": False, "type": "string", "isMultiValued": False}
-
