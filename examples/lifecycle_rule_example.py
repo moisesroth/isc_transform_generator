@@ -281,7 +281,7 @@ transform("Lifecycle Status Rule", lifecycle_status)
                 }
             }
         },
-        "value": "#if( $pre_hired == 'yes' )Pre-Hired#elseif( $inactive == 'yes' )#if( $terminated_30 == 'yes' )Terminated + 30 Days#elseTerminated#end#elseif( $active == 'yes' )Active#elseInactive#end"
+        "value": "#if( $pre_hired == 'yes' )Pre-Hired#{elseif}( $inactive == 'yes' )#if( $terminated_30 == 'yes' )Terminated + 30 Days#{else}Terminated#end#{elseif}( $active == 'yes' )Active#{else}Inactive#end"
     },
     "type": "static"
 }
