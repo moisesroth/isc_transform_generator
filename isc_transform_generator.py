@@ -15,10 +15,10 @@ def fix_velocity_pattern(input):
     return output_string
 
 def transform(name, transform, requires_periodic_refresh=None):
-    final_transform = {'name': name}
+    transform["internal"] = False
+    if requires_periodic_refresh is True: transform["attributes"] = {"requiresPeriodicRefresh": True, **transform["attributes"]}
+    final_transform = {'name': name, 'type': transform['type']}
     final_transform.update(transform)
-    if requires_periodic_refresh is not None:
-        transform["attributes"]["requiresPeriodicRefresh"] = requires_periodic_refresh
     print(json.dumps(final_transform, indent=4))
 
 def accountAttribute(source_name, attribute_name, account_sort_attribute=None, account_sort_descending=None, account_return_first_link=None, account_property_filter=None, account_filter=None):
