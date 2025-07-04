@@ -159,16 +159,16 @@ def dateMath(expression, round_up=None, input=None):
         transform["attributes"]["expression"] = expression
     return transform
 
-def e164Phone(input=None, default_country=None):
+def e164phone(input=None, default_country=None):
     """
-    Creates a dictionary representing an 'e164Phone' transform in SailPoint.
+    Creates a dictionary representing an 'e164phone' transform in SailPoint.
 
     :param input: (optional) Dictionary defining the input for the transform.
     :param default_country: (optional) ISO‑3166 two‑letter code to use when parsing national‑format numbers.
-    :return: A dictionary representing the 'e164Phone' transform.
+    :return: A dictionary representing the 'e164phone' transform.
     """
     transform = {
-        "type": "e164Phone",
+        "type": "e164phone",
         "attributes": {}
     }
     if default_country is not None:
