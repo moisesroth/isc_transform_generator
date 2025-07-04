@@ -14,12 +14,15 @@ def fix_velocity_pattern(input):
     output_string = re.sub(r'#else', '#{else}', output_string)
     return output_string
 
-def transform(name, transform, requires_periodic_refresh=None):
+def transform(name, transform, requires_periodic_refresh=None, output_enabled=False):
     transform["internal"] = False
     if requires_periodic_refresh is True: transform["attributes"] = {"requiresPeriodicRefresh": True, **transform["attributes"]}
     final_transform = {'name': name, 'type': transform['type']}
     final_transform.update(transform)
-    print(json.dumps(final_transform, indent=4))
+    if output_enabled:
+        return final_transform
+    else:
+        print(json.dumps(final_transform, indent=4))
 
 def accountAttribute(source_name, attribute_name, account_sort_attribute=None, account_sort_descending=None, account_return_first_link=None, account_property_filter=None, account_filter=None):
     """
@@ -156,6 +159,23 @@ def dateMath(expression, round_up=None, input=None):
         transform["attributes"]["expression"] = expression
     return transform
 
+def e164Phone(input=None, default_country=None):
+    """
+    Creates a dictionary representing an 'e164Phone' transform in SailPoint.
+
+    :param input: (optional) Dictionary defining the input for the transform.
+    :param default_country: (optional) ISO‑3166 two‑letter code to use when parsing national‑format numbers.
+    :return: A dictionary representing the 'e164Phone' transform.
+    """
+    transform = {
+        "type": "e164Phone",
+        "attributes": {}
+    }
+    if default_country is not None:
+        transform["attributes"]["defaultCountry"] = default_country
+    if input is not None:
+        transform["attributes"]["input"] = input
+    return transform
 
 def firstValid(values, ignore_errors=None):
     """
@@ -494,6 +514,10 @@ def static(value, variables=None):
     :param variables: An optional dictionary of variables to be used in the VTL expression.
     :return: A dictionary representing the 'static' transform.
     """
+
+    if variables is not None and "value" in variables:
+        raise ValueError("The key 'value' is reserved and cannot be used in the 'variables' parameter.")   
+
     transform = {
         "attributes": {},
         "type": "static"
